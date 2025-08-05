@@ -38,4 +38,27 @@ WHERE ROWNUM <= 10
 
 SELECT TO_CHAR(123.4, 'FM9999999990D00', 'NLS_NUMERIC_CHARACTERS = ''.''') AS resultado FROM dual;
 
+import csv
+import os
+
+# Nombre del archivo CSV exportado
+csv_file = 'resultados.csv'  # Cambia por el nombre de tu archivo exportado
+
+# Carpeta donde se guardarán los archivos (se crea si no existe)
+output_dir = 'clob_files'
+os.makedirs(output_dir, exist_ok=True)
+
+with open(csv_file, newline='', encoding='utf-8') as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        # Usa la columna 'id' para el nombre del archivo
+        file_name = f"{row['id']}.xml"  # Cambia extensión si quieres otro formato
+        file_path = os.path.join(output_dir, file_name)
+        
+        # Escribe el contenido del CLOB en el archivo
+        with open(file_path, 'w', encoding='utf-8') as outfile:
+            outfile.write(row['clob_contenido'])
+
+print(f"Archivos guardados en la carpeta '{output_dir}'")
+
 
