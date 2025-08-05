@@ -1,0 +1,37 @@
+SELECT
+    FLOOR(DBMS_RANDOM.VALUE(10000000, 99999999)) AS nroOperacion,
+    XMLSERIALIZE(
+        CONTENT
+            XMLELEMENT("raiz",
+                XMLELEMENT("operaciones",
+                    XMLELEMENT("seccOperacion",
+                        XMLELEMENT("nroOperacion", FLOOR(DBMS_RANDOM.VALUE(10000000, 99999999))),
+                        XMLELEMENT("operacion", 'REN'),
+                        XMLELEMENT("EEFF", 'BSO'),
+                        XMLELEMENT("feOperacion", '22/07/2025'),
+                        XMLELEMENT("seccTituloValor",
+                            XMLELEMENT("inst", 'DPF'),
+                            XMLELEMENT("serie", 'BNB' || SUBSTR(DBMS_RANDOM.STRING('N', 6), 1, 6) || '25'),
+                            XMLELEMENT("feEmision", TO_CHAR(FE_EMISION, 'DD/MM/YYYY')),
+                            XMLELEMENT("plazo", PLAZO),
+                            XMLELEMENT("origenEmision", ORIGEN_EMISION),
+                            XMLELEMENT("feVtco", TO_CHAR(FE_VTCO, 'DD/MM/YYYY')),
+                            XMLELEMENT("moneda", MONEDA),
+                            XMLELEMENT("valorNominal", VALOR_NOMINAL),
+                            XMLELEMENT("tipoInteres", TIPO_INTERES),
+                            XMLELEMENT("modPagoInteres", MOD_PAGO_INTERES),
+                            XMLELEMENT("emisor", EMISOR),
+                            XMLELEMENT("codVerif", COD_VERIF),
+                            XMLELEMENT("codigoAlterno", CODIGO_ALTERNO),
+                            XMLELEMENT("lugarPago", LUGAR_PAGO),
+                            XMLELEMENT("tasaIntNom", TASA_INT_NOM),
+                            XMLELEMENT("tasaIntPas", TASA_INT_PAS),
+                            XMLELEMENT("serieAnterior", SERIE_ANTERIOR)
+                        )
+                    )
+                )
+            )
+        AS CLOB
+    ) AS XML_OUTPUT
+FROM OPERACIONES_XML
+WHERE ROWNUM <= 10
